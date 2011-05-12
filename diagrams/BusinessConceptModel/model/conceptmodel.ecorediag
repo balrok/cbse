@@ -46,7 +46,7 @@
     </children>
     <styles xmi:type="notation:ShapeStyle" xmi:id="_Rwba8Xx-EeCg4pt17CnTSA" fontColor="4210752" fontName="宋体" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
     <element xmi:type="ecore:EClass" href="conceptmodel.ecore#//Appointment"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_Rwba8nx-EeCg4pt17CnTSA" x="212" y="103"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_Rwba8nx-EeCg4pt17CnTSA" x="210" y="130"/>
   </children>
   <children xmi:type="notation:Node" xmi:id="_Rwd3MHx-EeCg4pt17CnTSA" type="1005">
     <children xmi:type="notation:Node" xmi:id="_RwfFUHx-EeCg4pt17CnTSA" type="4010"/>
