@@ -123,7 +123,7 @@
   </edges>
   <edges xmi:type="notation:Edge" xmi:id="_RwnBInx-EeCg4pt17CnTSA" type="3002" source="_Rwba8Hx-EeCg4pt17CnTSA" target="_RwfsYHx-EeCg4pt17CnTSA">
     <children xmi:type="notation:Node" xmi:id="_RwnoM3x-EeCg4pt17CnTSA" type="4011">
-      <layoutConstraint xmi:type="notation:Location" xmi:id="_RwnoNHx-EeCg4pt17CnTSA" x="-10" y="-10"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_RwnoNHx-EeCg4pt17CnTSA" x="-12" y="-28"/>
     </children>
     <children xmi:type="notation:Node" xmi:id="_RwoPQHx-EeCg4pt17CnTSA" type="4012">
       <layoutConstraint xmi:type="notation:Location" xmi:id="_RwoPQXx-EeCg4pt17CnTSA" x="10" y="10"/>
