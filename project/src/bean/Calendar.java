@@ -30,7 +30,7 @@ public class Calendar implements java.io.Serializable
         return appointments;
     }
 
-    public Boolean checkConflict(Appointment a)
+    public Boolean hasConflict(Appointment a)
     {
         return false;
     }
