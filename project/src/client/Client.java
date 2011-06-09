@@ -4,7 +4,7 @@ package client;
 import bean.LineItem;
 import bean.Order;
 import bean.ShoppingCart;
-import bean.UserMgt;
+import bean.IUserMgt;
 
 import javax.naming.InitialContext;
 
@@ -13,9 +13,9 @@ public class Client
     public static void main(String[] args) throws Exception
     {
         InitialContext ctx = new InitialContext();
-        UserMgt uMgt = (UserMgt) ctx.lookup("UserMgt/remote");
+        IUserMgt uMgt = (IUserMgt) ctx.lookup("UserMgt/remote");
+        System.out.println("starting login");
         uMgt.login("name", "email");
-
 
 
       ShoppingCart cart = (ShoppingCart) ctx.lookup("ShoppingCartBean/remote");

@@ -5,8 +5,10 @@ import bean.User;
 import javax.ejb.Remote;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.ejb.Remove;
+import javax.ejb.Stateful;
 
-// @Stateful
+@Stateful
 @Remote(IUserMgt.class)
 public class UserMgt implements IUserMgt, java.io.Serializable
 {
@@ -49,5 +51,10 @@ public class UserMgt implements IUserMgt, java.io.Serializable
         if (u == null)
             return null;
         return u.calendar;
+    }
+
+    @Remove
+    public void remove()
+    {
     }
 }
