@@ -52,7 +52,7 @@ public class CalendarMgt implements ICalendarMgt, java.io.Serializable
         {
             Calendar cal = uMgt.getUserCalendar(email);
             cal.addAppointment(app);
-            manager.persist(cal); // is this sufficient?
+            //manager.persist(cal); // is this sufficient?
         }
         return true;
     }
