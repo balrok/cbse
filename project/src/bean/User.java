@@ -8,16 +8,17 @@ import javax.persistence.OneToOne;
 @Entity
 public class User implements java.io.Serializable
 {
-   @Id
-   public String email;
+    @Id
+    public String email;
 
-   public String name;
-   @OneToOne(fetch = FetchType.EAGER)
-   private Calendar calendar;
+    public String name;
+
+    @OneToOne(fetch = FetchType.EAGER)
+    public Calendar calendar;
 
     public User()
     {
         // only new when not exists
-        this.calendar = new Calendar();
+        // is done in usermgt this.calendar = new Calendar();
     }
 }
