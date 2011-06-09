@@ -28,7 +28,6 @@ public class Appointment implements java.io.Serializable
 
     public Boolean conflictsWith(Appointment a)
     {
-        // TODO
-        return true;
+        return false;
     }
 }

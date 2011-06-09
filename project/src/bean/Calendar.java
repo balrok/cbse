@@ -23,16 +23,24 @@ public class Calendar implements java.io.Serializable
 
     public void addAppointment(Appointment a)
     {
+        System.out.println("Calendar.addAppointment");
         appointments.add(a);
     }
 
     public Collection<Appointment> viewAppointments()
     {
+        System.out.println("Calendar.viewAppointments");
         return appointments;
     }
 
-    public Boolean hasConflict(Appointment a)
+    public Boolean hasConflict(Appointment other)
     {
+        System.out.println("Calendar.hasConflict");
+        for (Appointment app: appointments)
+        {
+            if (app.conflictsWith(other))
+                return true;
+        }
         return false;
     }
 }

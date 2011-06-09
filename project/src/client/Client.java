@@ -26,6 +26,7 @@ public class Client
         uMgt.login("name", "email");
         assert(uMgt.getUserCalendar("email") != null);
 
+        System.out.println("starting addAppointment");
         HashSet <String> userEmails = new HashSet <String>();
         userEmails.add("email");
         cMgt.addAppointment(
@@ -36,6 +37,7 @@ public class Client
             false, // isPrivate
             AppointmentType.FREE,
             userEmails);
+        System.out.println("starting viewAppointments");
         for(Appointment a: cMgt.viewAppointments("email"))
         {
             System.out.println(a.title);

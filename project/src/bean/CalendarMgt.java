@@ -52,7 +52,8 @@ public class CalendarMgt implements ICalendarMgt, java.io.Serializable
         {
             Calendar cal = uMgt.getUserCalendar(email);
             cal.addAppointment(app);
-            //manager.persist(cal); // is this sufficient?
+            manager.merge(cal); // persist can only be used when an object is new - merge is something like update/add if not exist
+            // persist(app) was not possible cause the manytomany relation wasn't made then
         }
         return true;
     }
