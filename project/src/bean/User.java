@@ -13,7 +13,7 @@ public class User implements java.io.Serializable
 
     public String name;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     public Calendar calendar;
 
     public User()

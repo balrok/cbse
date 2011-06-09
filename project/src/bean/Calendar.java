@@ -21,6 +21,6 @@ public class Calendar implements java.io.Serializable
     @Id @GeneratedValue(strategy=GenerationType.AUTO)
     private int id;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy="order")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Collection<Appointment> appointments;
 }
