@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import javax.persistence.CascadeType;
 
 @Entity
 public class User implements java.io.Serializable

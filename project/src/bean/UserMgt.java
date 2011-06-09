@@ -7,7 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 // @Stateful
-@Remote(ShoppingCart.class)
+@Remote(IUserMgt.class)
 public class UserMgt implements IUserMgt, java.io.Serializable
 {
     @PersistenceContext
@@ -15,6 +15,7 @@ public class UserMgt implements IUserMgt, java.io.Serializable
 
     public void login(String name, String email)
     {
+        System.out.println("login with "+name+":"+email);
         User u = getUser(email);
         if (u == null)
         {
@@ -26,19 +27,24 @@ public class UserMgt implements IUserMgt, java.io.Serializable
 
     protected void addUser(String name, String email)
     {
+        System.out.println("addUser with "+name+":"+email);
         User u = new User();
+        u.email = email;
+        u.name = name;
         u.calendar = new Calendar();
         manager.persist(u);
     }
 
     protected User getUser(String email)
     {
+        System.out.println("getUser with "+email);
         User u = manager.find(User.class, email);
         return u;
     }
 
     public Calendar getUserCalendar(String email)
     {
+        System.out.println("getUserCalendar with "+email);
         User u = getUser(email);
         if (u == null)
             return null;

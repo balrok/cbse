@@ -4,14 +4,20 @@ package client;
 import bean.LineItem;
 import bean.Order;
 import bean.ShoppingCart;
+import bean.UserMgt;
 
 import javax.naming.InitialContext;
 
 public class Client
 {
-   public static void main(String[] args) throws Exception
-   {
-      InitialContext ctx = new InitialContext();
+    public static void main(String[] args) throws Exception
+    {
+        InitialContext ctx = new InitialContext();
+        UserMgt uMgt = (UserMgt) ctx.lookup("UserMgt/remote");
+        uMgt.login("name", "email");
+
+
+
       ShoppingCart cart = (ShoppingCart) ctx.lookup("ShoppingCartBean/remote");
 
       System.out.println("Buying 2 memory sticks");
