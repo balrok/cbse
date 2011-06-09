@@ -12,11 +12,12 @@ public class User implements java.io.Serializable
    public String email;
 
    public String name;
-   // @OneToOne(fetch = FetchType.EAGER)
-   // private Calendar calendar;
+   @OneToOne(fetch = FetchType.EAGER)
+   private Calendar calendar;
 
     public User()
     {
-        //this.calendar = new Calendar();
+        // only new when not exists
+        this.calendar = new Calendar();
     }
 }
