@@ -1,1 +1,13 @@
-Test
+Dokumentation EJB Projekt
+
+Teilnehmer:
+Ghiath Makhoul
+Lars Krahl
+Carl Schönbach
+Xi Luo
+
+
+Neuste Version unter https://github.com/balrok/cbse.git
+build/run mit ant run in Unter-Ordner "projekt"
+
+Dieses Programm ist nicht interaktiv. :)
