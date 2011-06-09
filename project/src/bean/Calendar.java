@@ -20,4 +20,18 @@ public class Calendar implements java.io.Serializable
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Collection<Appointment> appointments;
+
+    public void addAppointment(Appointment a)
+    {
+    }
+
+    public Collection<Appointment> viewAppointments()
+    {
+        return appointments;
+    }
+
+    public Boolean checkConflict(Appointment a)
+    {
+        return false;
+    }
 }
