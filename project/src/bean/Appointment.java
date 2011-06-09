@@ -28,6 +28,12 @@ public class Appointment implements java.io.Serializable
 
     public Boolean conflictsWith(Appointment a)
     {
+        assert(a != null);
+        if (a.start.before(start) && a.end.after(start)
+            || a.start.after(start) && a.start.before(end))
+        {
+            return true;
+        }
         return false;
     }
 }
