@@ -67,15 +67,15 @@
     </target>
 
     <target name="entity2xml" depends="prepare">
-        <java fork="yes" failOnError="true" className="org.jboss.ejb3.entity.EntityToHibernateXml">
+        <java fork="yes" failOnError="true" className="EntityToHibernateXml">
             <classpath refid="classpath"/>
-            <arg value="org.jboss.tutorial.entity.bean.Order"/>
-            <arg value="org.jboss.tutorial.entity.bean.LineItem"/>
+            <arg value="bean.Order"/>
+            <arg value="bean.LineItem"/>
         </java>
     </target>
 
     <target name="run" depends="ejbjar">
-        <java classname="org.jboss.tutorial.entity.client.Client" fork="yes" dir=".">
+        <java classname="client.Client" fork="yes" dir=".">
             <classpath refid="classpath"/>
         </java>
     </target>
