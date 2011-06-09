@@ -52,13 +52,26 @@ public class CalendarMgt implements ICalendarMgt, java.io.Serializable
         {
             Calendar cal = uMgt.getUserCalendar(email);
             cal.addAppointment(app);
+            manager.persist(cal); // is this sufficient?
         }
         return true;
     }
 
     public Collection<Appointment> viewAppointments(String email)
     {
-        return null;
+        IUserMgt uMgt = null;
+        try {
+            InitialContext ctx = new InitialContext();
+            uMgt = (IUserMgt) ctx.lookup("UserMgt/remote");
+        } catch (Exception e)
+        {
+            return null;
+        }
+
+        Calendar cal = uMgt.getUserCalendar(email);
+        if (cal == null)
+            return null;
+        return cal.viewAppointments();
     }
 
     @Remove
