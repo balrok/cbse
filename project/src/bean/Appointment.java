@@ -12,11 +12,12 @@ import java.util.Date;
 public class Appointment implements java.io.Serializable
 {
     // this id must be added for the databasemanager - just use an autoincrement here
+    // generally not of public interest - but i like to see the incrementing ids in the outside world :)
     @Id @GeneratedValue(strategy=GenerationType.AUTO)
     public int id;
 
     public Date start;
-    // end is a sql keyword so rename it here
+    // end is a sql keyword and causes an error when ejb trys to create a table --> so rename it here
     @Column(name="end_time")
     public Date end;
     public String title;
@@ -24,9 +25,32 @@ public class Appointment implements java.io.Serializable
     public Boolean isPrivate;
     public AppointmentType type;
 
+    /*
+     * Two appointments are in conflict, if they
+     * overlap in time, and none of the two appointments is of type Free
+     */
     public Boolean conflictsWith(Appointment a)
     {
         assert(a != null);
+        // free is a special type and returns always true
+        if (a.type == AppointmentType.FREE)
+            return true;
+        return overlapsInTime(a);
+    }
+
+    /*
+     * Will return wether another Appointment overlaps in time with this one
+     *
+     * to illustrate the following on a timeline (s=start, e=end)
+     * first one - not that the end of the other can be at any point after start
+     * this :     s-----e
+     * other:  s----e
+     * second one - when the start of the other is after start of that one and before the end of this one
+     * this :  s-----e
+     * other:     s----e
+    */
+    protected Boolean overlapsInTime(Appointment a)
+    {
         if (a.start.before(start) && a.end.after(start)
             || a.start.after(start) && a.start.before(end))
         {
