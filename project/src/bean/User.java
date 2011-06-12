@@ -16,10 +16,4 @@ public class User implements java.io.Serializable
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     public Calendar calendar;
-
-    public User()
-    {
-        // only new when not exists
-        // is done in usermgt this.calendar = new Calendar();
-    }
 }

@@ -11,19 +11,12 @@ import bean.CalendarMgt;
 
 public class AddAppointment implements IAddAppointment {
 
-	@Override
-	public Boolean addAppointment(Date start, Date end, String title,
-			String notes, Boolean isPrivate, AppointmentType type,
-			Collection<String> userEmails) {
-		// TODO Auto-generated method stub
-		CalendarMgt cMgt = new CalendarMgt();
-		return cMgt.addAppointment(start, end, title, notes, isPrivate, type, userEmails);
-	}
-
-	@Override
-	public void remove() {
-		// TODO Auto-generated method stub
-
-	}
-
+    @Override
+    public Boolean addAppointment(Date start, Date end, String title,
+            String notes, Boolean isPrivate, AppointmentType type,
+            Collection<String> userEmails) {
+        // FIXME the following code doesn't work @see(LoginUser)
+        CalendarMgt cMgt = new CalendarMgt();
+        return cMgt.addAppointment(start, end, title, notes, isPrivate, type, userEmails);
+    }
 }

@@ -3,7 +3,6 @@ package bean;
 import bean.UserMgt;
 import bean.ILoginUser;
 import javax.ejb.Remote;
-import javax.ejb.Remove;
 import javax.ejb.Stateful;
 import javax.naming.InitialContext;
 
@@ -22,10 +21,5 @@ public class LoginUser implements ILoginUser
             return;
         }
         uMgt.login(name, email);
-    }
-
-    @Remove
-    public void remove()
-    {
     }
 }

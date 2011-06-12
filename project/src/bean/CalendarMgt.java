@@ -8,7 +8,6 @@ import bean.IViewAppointment;
 import javax.ejb.Remote;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.ejb.Remove;
 import javax.ejb.Stateful;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -20,7 +19,7 @@ import javax.naming.InitialContext;
 
 @Stateful
 @Remote(ICalendarMgt.class)
-public class CalendarMgt implements ICalendarMgt, IViewAppointment, IAddAppointment
+public class CalendarMgt implements ICalendarMgt
 {
     @PersistenceContext
     private EntityManager manager;
@@ -54,8 +53,13 @@ public class CalendarMgt implements ICalendarMgt, IViewAppointment, IAddAppointm
         {
             Calendar cal = uMgt.getUserCalendar(email);
             cal.addAppointment(app);
-            manager.merge(cal); // persist can only be used when an object is new - merge is something like update/add if not exist
-            // persist(app) was not possible cause the manytomany relation wasn't made then
+
+            /*
+             * persist can only be used when an object is new - merge is something like update/add if not exist
+             * persist(app) was not possible cause the manytomany relation wasn't saved then and an error occured
+             * perhaps someone wants to validate later the usage of merge in this context
+             */
+            manager.merge(cal);
         }
         return true;
     }
@@ -75,10 +79,5 @@ public class CalendarMgt implements ICalendarMgt, IViewAppointment, IAddAppointm
         if (cal == null)
             return null;
         return cal.viewAppointments();
-    }
-
-    @Remove
-    public void remove()
-    {
     }
 }

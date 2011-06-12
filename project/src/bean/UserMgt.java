@@ -5,7 +5,6 @@ import bean.User;
 import javax.ejb.Remote;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.ejb.Remove;
 import javax.ejb.Stateful;
 
 @Stateful
@@ -50,10 +49,5 @@ public class UserMgt implements IUserMgt
         if (u == null)
             return null;
         return u.calendar;
-    }
-
-    @Remove
-    public void remove()
-    {
     }
 }
