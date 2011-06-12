@@ -15,7 +15,7 @@ public class Appointment implements java.io.Serializable
 {
     // this id must be added for the databasemanager - just use an autoincrement here
     @Id @GeneratedValue(strategy=GenerationType.AUTO)
-    private int id;
+    public int id;
 
     public Date start;
     // end is a sql keyword so rename it here

@@ -9,6 +9,7 @@ import bean.AppointmentType;
 
 import javax.naming.InitialContext;
 import java.util.HashSet;
+import java.util.Collection;
 import java.util.Date;
 
 public class Client
@@ -23,12 +24,12 @@ public class Client
         IUserMgt uMgt = (IUserMgt) ctx.lookup("UserMgt/remote");
         ICalendarMgt cMgt = (ICalendarMgt) ctx.lookup("CalendarMgt/remote");
         System.out.println("starting login");
-        uMgt.login("name", "email");
+        uMgt.login("Alice", "alice@a.com");
         assert(uMgt.getUserCalendar("email") != null);
 
         System.out.println("starting addAppointment");
         HashSet <String> userEmails = new HashSet <String>();
-        userEmails.add("email");
+        userEmails.add("alice@a.com");
         cMgt.addAppointment(
             new Date(2011,6,19), // start
             new Date(2011,6,20), // end
@@ -37,10 +38,22 @@ public class Client
             false, // isPrivate
             AppointmentType.FREE,
             userEmails);
-        System.out.println("starting viewAppointments");
-        for(Appointment a: cMgt.viewAppointments("email"))
+
+        System.out.println("starting viewAppointments:");
+        viewAppointments(cMgt.viewAppointments("alice@a.com"));
+    }
+
+    public static void viewAppointments(Collection<Appointment> appointments)
+    {
+        for(Appointment a: appointments)
         {
-            System.out.println(a.title);
+            printAppointment(a);
         }
+    }
+
+    public static void printAppointment(Appointment a)
+    {
+        System.out.printf("%d: %s", a.id, a.title);
+        System.out.println("");
     }
 }
