@@ -1,7 +1,7 @@
 package bean;
 
 import java.util.Collection;
-import java.util.Date;
+import java.util.GregorianCalendar;
 import javax.ejb.Remote;
 import javax.ejb.Stateful;
 import bean.CalendarMgt;
@@ -10,9 +10,7 @@ import bean.CalendarMgt;
 @Remote(IAddAppointment.class)
 
 public class AddAppointment implements IAddAppointment {
-
-    @Override
-    public Boolean addAppointment(Date start, Date end, String title,
+    public Boolean addAppointment(GregorianCalendar start, GregorianCalendar end, String title,
             String notes, Boolean isPrivate, AppointmentType type,
             Collection<String> userEmails) {
         // FIXME the following code doesn't work @see(LoginUser)

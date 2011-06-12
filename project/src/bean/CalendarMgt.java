@@ -11,7 +11,7 @@ import javax.persistence.PersistenceContext;
 import javax.ejb.Stateful;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
+import java.util.GregorianCalendar;
 
 import bean.IUserMgt;
 import bean.Calendar;
@@ -24,7 +24,7 @@ public class CalendarMgt implements ICalendarMgt
     @PersistenceContext
     private EntityManager manager;
 
-    public Boolean addAppointment(Date start, Date end, String title, String notes, Boolean isPrivate, AppointmentType type, Collection<String> userEmails)
+    public Boolean addAppointment(GregorianCalendar start, GregorianCalendar end, String title, String notes, Boolean isPrivate, AppointmentType type, Collection<String> userEmails)
     {
         Appointment app = new Appointment();
         app.start = start;

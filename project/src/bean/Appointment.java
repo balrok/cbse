@@ -6,7 +6,7 @@ import javax.persistence.Id;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Column;
-import java.util.Date;
+import java.util.GregorianCalendar;
 
 @Entity
 public class Appointment implements java.io.Serializable
@@ -16,10 +16,10 @@ public class Appointment implements java.io.Serializable
     @Id @GeneratedValue(strategy=GenerationType.AUTO)
     public int id;
 
-    public Date start;
+    public GregorianCalendar start;
     // end is a sql keyword and causes an error when ejb trys to create a table --> so rename it here
     @Column(name="end_time")
-    public Date end;
+    public GregorianCalendar end;
     public String title;
     public String notes;
     public Boolean isPrivate;

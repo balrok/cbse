@@ -10,14 +10,10 @@ import bean.AppointmentType;
 import javax.naming.InitialContext;
 import java.util.HashSet;
 import java.util.Collection;
-import java.util.Date;
+import java.util.GregorianCalendar;
 
 public class Client
 {
-    /**
-     * the use of my Date function is deprecated so suppress this warning with following comment
-     *  @deprecated
-    */
     public static void main(String[] args) throws Exception
     {
         InitialContext ctx = new InitialContext();
@@ -31,8 +27,8 @@ public class Client
         HashSet <String> userEmails = new HashSet <String>();
         userEmails.add("alice@a.com");
         addApp.addAppointment(
-            new Date(2011,6,19), // start
-            new Date(2011,6,20), // end
+            new GregorianCalendar(2011, 6, 19, 12, 30),
+            new GregorianCalendar(2011, 6, 19, 13, 30),
             "title",
             "notes",
             false, // isPrivate
