@@ -26,7 +26,7 @@ public class Client
         System.out.println("starting addAppointment");
         HashSet <String> userEmails = new HashSet <String>();
         userEmails.add("alice@a.com");
-        addApp.addAppointment(
+        Boolean success = addApp.addAppointment(
             new GregorianCalendar(2011, 6, 19, 12, 30),
             new GregorianCalendar(2011, 6, 19, 13, 30),
             "title",
@@ -34,6 +34,9 @@ public class Client
             false, // isPrivate
             AppointmentType.FREE,
             userEmails);
+        if (!success)
+            System.out.println("Couldn't add appointment");
+
 
         System.out.println("starting viewAppointments:");
         viewAppointments(viewApp.viewAppointments("alice@a.com"));
