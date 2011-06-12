@@ -24,7 +24,7 @@ public class Client
         ILoginUser loginUser = (ILoginUser) ctx.lookup("UserMgt/remote");
         IAddAppointment addApp = (IAddAppointment) ctx.lookup("CalendarMgt/remote");
         IViewAppointment viewApp = (IViewAppointment) ctx.lookup("CalendarMgt/remote");
-        System.out.println("starting login");
+        System.out.println("starting login with alice");
         loginUser.login("Alice", "alice@a.com");
 
         System.out.println("starting addAppointment");
