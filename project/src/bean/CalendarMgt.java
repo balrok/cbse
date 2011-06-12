@@ -9,8 +9,10 @@ import javax.ejb.Remote;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.ejb.Stateful;
-import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.ArrayList;
 import java.util.GregorianCalendar;
 
 import bean.IUserMgt;
@@ -64,7 +66,7 @@ public class CalendarMgt implements ICalendarMgt
         return true;
     }
 
-    public Collection<Appointment> viewAppointments(String email)
+    public List<Appointment> viewAppointments(String email)
     {
         IUserMgt uMgt = null;
         try {
@@ -78,6 +80,9 @@ public class CalendarMgt implements ICalendarMgt
         Calendar cal = uMgt.getUserCalendar(email);
         if (cal == null)
             return null;
-        return cal.viewAppointments();
+        Collection<Appointment> appointments = cal.viewAppointments();
+        List sortedAppointments = new ArrayList(appointments);
+        Collections.sort(sortedAppointments);
+        return sortedAppointments;
     }
 }

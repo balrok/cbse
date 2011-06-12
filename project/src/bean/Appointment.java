@@ -9,7 +9,7 @@ import javax.persistence.Column;
 import java.util.GregorianCalendar;
 
 @Entity
-public class Appointment implements java.io.Serializable
+public class Appointment implements java.io.Serializable, Comparable<Appointment>
 {
     // this id must be added for the databasemanager - just use an autoincrement here
     // generally not of public interest - but i like to see the incrementing ids in the outside world :)
@@ -57,5 +57,12 @@ public class Appointment implements java.io.Serializable
             return true;
         }
         return false;
+    }
+
+    // implementing Comparable interface for easier sorting
+    public int compareTo(Appointment a)
+    {
+        int result = start.compareTo(a.start);
+        return result;
     }
 }
