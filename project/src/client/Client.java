@@ -2,6 +2,7 @@ package client;
 
 
 import bean.IUserMgt;
+import bean.ILoginUser;
 import bean.ICalendarMgt;
 import bean.Appointment;
 import bean.AppointmentType;
@@ -21,9 +22,10 @@ public class Client
     {
         InitialContext ctx = new InitialContext();
         IUserMgt uMgt = (IUserMgt) ctx.lookup("UserMgt/remote");
+        ILoginUser loginUser = (ILoginUser) ctx.lookup("LoginUser/remote");
         ICalendarMgt cMgt = (ICalendarMgt) ctx.lookup("CalendarMgt/remote");
         System.out.println("starting login");
-        uMgt.login("Alice", "alice@a.com");
+        loginUser.login("Alice", "alice@a.com");
         assert(uMgt.getUserCalendar("email") != null);
 
         System.out.println("starting addAppointment");
