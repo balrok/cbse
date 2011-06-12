@@ -18,7 +18,7 @@ import javax.naming.InitialContext;
 
 @Stateful
 @Remote(ICalendarMgt.class)
-public class CalendarMgt implements ICalendarMgt, java.io.Serializable
+public class CalendarMgt implements ICalendarMgt
 {
     @PersistenceContext
     private EntityManager manager;

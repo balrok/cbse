@@ -10,7 +10,7 @@ import javax.ejb.Stateful;
 
 @Stateful
 @Remote(IUserMgt.class)
-public class UserMgt implements IUserMgt, java.io.Serializable
+public class UserMgt implements IUserMgt
 {
     @PersistenceContext
     private EntityManager manager;
@@ -24,7 +24,6 @@ public class UserMgt implements IUserMgt, java.io.Serializable
             addUser(name, email);
             u = getUser(email);
         }
-        return;
     }
 
     protected void addUser(String name, String email)

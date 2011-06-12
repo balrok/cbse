@@ -3,7 +3,6 @@ package client;
 
 import bean.IUserMgt;
 import bean.ICalendarMgt;
-import bean.Calendar;
 import bean.Appointment;
 import bean.AppointmentType;
 
