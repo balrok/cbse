@@ -1,9 +1,9 @@
 package client;
 
 
-import bean.IUserMgt;
 import bean.ILoginUser;
-import bean.ICalendarMgt;
+import bean.IViewAppointment;
+import bean.IAddAppointment;
 import bean.Appointment;
 import bean.AppointmentType;
 
@@ -21,17 +21,16 @@ public class Client
     public static void main(String[] args) throws Exception
     {
         InitialContext ctx = new InitialContext();
-        IUserMgt uMgt = (IUserMgt) ctx.lookup("UserMgt/remote");
-        ILoginUser loginUser = (ILoginUser) ctx.lookup("LoginUser/remote");
-        ICalendarMgt cMgt = (ICalendarMgt) ctx.lookup("CalendarMgt/remote");
+        ILoginUser loginUser = (ILoginUser) ctx.lookup("UserMgt/remote");
+        IAddAppointment addApp = (IAddAppointment) ctx.lookup("CalendarMgt/remote");
+        IViewAppointment viewApp = (IViewAppointment) ctx.lookup("CalendarMgt/remote");
         System.out.println("starting login");
         loginUser.login("Alice", "alice@a.com");
-        assert(uMgt.getUserCalendar("email") != null);
 
         System.out.println("starting addAppointment");
         HashSet <String> userEmails = new HashSet <String>();
         userEmails.add("alice@a.com");
-        cMgt.addAppointment(
+        addApp.addAppointment(
             new Date(2011,6,19), // start
             new Date(2011,6,20), // end
             "title",
@@ -41,7 +40,7 @@ public class Client
             userEmails);
 
         System.out.println("starting viewAppointments:");
-        viewAppointments(cMgt.viewAppointments("alice@a.com"));
+        viewAppointments(viewApp.viewAppointments("alice@a.com"));
     }
 
     public static void viewAppointments(Collection<Appointment> appointments)

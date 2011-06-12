@@ -3,6 +3,8 @@ package bean;
 import bean.Calendar;
 import bean.Appointment;
 import bean.AppointmentType;
+import bean.IAddAppointment;
+import bean.IViewAppointment;
 import javax.ejb.Remote;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -18,7 +20,7 @@ import javax.naming.InitialContext;
 
 @Stateful
 @Remote(ICalendarMgt.class)
-public class CalendarMgt implements ICalendarMgt
+public class CalendarMgt implements ICalendarMgt, IViewAppointment, IAddAppointment
 {
     @PersistenceContext
     private EntityManager manager;
