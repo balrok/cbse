@@ -22,6 +22,7 @@ public class Appointment implements java.io.Serializable, Comparable<Appointment
     public GregorianCalendar end;
     public String title;
     public String notes;
+    // private -> had be named isPrivate cause it is a java keyword
     public Boolean isPrivate;
     public AppointmentType type;
 
@@ -33,7 +34,7 @@ public class Appointment implements java.io.Serializable, Comparable<Appointment
     {
         assert(a != null);
         // free is a special type and returns always true
-        if (a.type == AppointmentType.FREE)
+        if (a.type == AppointmentType.FREE || isPrivate)
             return true;
         return overlapsInTime(a);
     }
