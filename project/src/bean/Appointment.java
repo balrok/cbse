@@ -34,8 +34,8 @@ public class Appointment implements java.io.Serializable, Comparable<Appointment
     {
         assert(a != null);
         // free is a special type and returns always true
-        if (a.type == AppointmentType.FREE)
-            return true;
+        if (a.type == AppointmentType.FREE || type == AppointmentType.FREE)
+            return false;
         return overlapsInTime(a);
     }
 
