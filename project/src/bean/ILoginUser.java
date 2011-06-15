@@ -2,5 +2,6 @@ package bean;
 
 public interface ILoginUser
 {
-    public void login(String name, String email);
+    // returns true when a new user was created
+    public Boolean login(String name, String email);
 }

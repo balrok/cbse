@@ -22,7 +22,9 @@ public class Client
         IAddAppointment addApp = (IAddAppointment) ctx.lookup("CalendarMgt/remote");
         IViewAppointment viewApp = (IViewAppointment) ctx.lookup("CalendarMgt/remote");
         System.out.println("starting login with alice");
-        loginUser.login("Alice", "alice@a.com");
+        Boolean newUser = loginUser.login("Alice", "alice@a.com");
+        if (newUser)
+            System.out.println("created new account");
 
         System.out.println("starting addAppointment");
         HashSet <String> userEmails = new HashSet <String>();

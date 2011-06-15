@@ -5,6 +5,6 @@ import bean.ILoginUser;
 
 public interface IUserMgt extends ILoginUser
 {
-    public void login(String name, String email);
+    public Boolean login(String name, String email);
     public Calendar getUserCalendar(String email);
 }

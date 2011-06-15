@@ -14,7 +14,7 @@ public class UserMgt implements IUserMgt
     @PersistenceContext
     private EntityManager manager;
 
-    public void login(String name, String email)
+    public Boolean login(String name, String email)
     {
         System.out.println("login with "+name+":"+email);
         User u = getUser(email);
@@ -22,7 +22,9 @@ public class UserMgt implements IUserMgt
         {
             addUser(name, email);
             u = getUser(email);
+            return true;
         }
+        return false;
     }
 
     protected void addUser(String name, String email)
