@@ -12,7 +12,9 @@ import javax.ejb.Stateful;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.ArrayList;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.GregorianCalendar;
 
 import bean.IUserMgt;
@@ -26,8 +28,11 @@ public class CalendarMgt implements ICalendarMgt
     @PersistenceContext
     private EntityManager manager;
 
-    public Boolean addAppointment(GregorianCalendar start, GregorianCalendar end, String title, String notes, Boolean isPrivate, AppointmentType type, Collection<String> userEmails)
+    // returns a list of appointments which are in conflict or null
+    // throws exception if something strange happened (couldn't find UserMgt/remote)
+    public Map<String, Appointment> addAppointment(GregorianCalendar start, GregorianCalendar end, String title, String notes, Boolean isPrivate, AppointmentType type, Collection<String> userEmails) throws Exception
     {
+        Map<String, Appointment> errorAppointments = new HashMap<String, Appointment>();
         Appointment app = new Appointment();
         app.start = start;
         app.end = end;
@@ -37,20 +42,24 @@ public class CalendarMgt implements ICalendarMgt
         app.type = type;
 
         IUserMgt uMgt = null;
-        try {
-            InitialContext ctx = new InitialContext();
-            uMgt = (IUserMgt) ctx.lookup("UserMgt/remote");
-        } catch (Exception e)
-        {
-            return false;
-        }
+        InitialContext ctx = new InitialContext();
+        uMgt = (IUserMgt) ctx.lookup("UserMgt/remote");
 
         for (String email: userEmails)
         {
             Calendar cal = uMgt.getUserCalendar(email);
             if (cal == null || cal.hasConflict(app))
-                return false;
+            {
+                if (app.isPrivate)
+                {
+                    // cause we shouldn't send the user full information about a private appointment
+                    app = new Appointment();
+                }
+                errorAppointments.put(email, app);
+            }
         }
+        if (!errorAppointments.isEmpty())
+            return errorAppointments;
         for (String email: userEmails)
         {
             Calendar cal = uMgt.getUserCalendar(email);
@@ -63,7 +72,7 @@ public class CalendarMgt implements ICalendarMgt
              */
             manager.merge(cal);
         }
-        return true;
+        return null;
     }
 
     public List<Appointment> viewAppointments(String email)
@@ -81,7 +90,7 @@ public class CalendarMgt implements ICalendarMgt
         if (cal == null)
             return null;
         Collection<Appointment> appointments = cal.viewAppointments();
-        List sortedAppointments = new ArrayList(appointments);
+        List sortedAppointments = new LinkedList(appointments);
         Collections.sort(sortedAppointments);
         return sortedAppointments;
     }

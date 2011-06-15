@@ -10,6 +10,7 @@ import bean.AppointmentType;
 import javax.naming.InitialContext;
 import java.util.HashSet;
 import java.util.Collection;
+import java.util.Map;
 import java.util.GregorianCalendar;
 
 public class Client
@@ -26,7 +27,7 @@ public class Client
         System.out.println("starting addAppointment");
         HashSet <String> userEmails = new HashSet <String>();
         userEmails.add("alice@a.com");
-        Boolean success = addApp.addAppointment(
+        Map<String, Appointment> errorAppointments = addApp.addAppointment(
             new GregorianCalendar(2011, 6, 19, 12, 30),
             new GregorianCalendar(2011, 6, 19, 13, 30),
             "title",
@@ -34,9 +35,8 @@ public class Client
             false, // isPrivate
             AppointmentType.FREE,
             userEmails);
-        if (!success)
+        if (errorAppointments != null)
             System.out.println("Couldn't add appointment");
-
 
         System.out.println("starting viewAppointments:");
         viewAppointments(viewApp.viewAppointments("alice@a.com"));
