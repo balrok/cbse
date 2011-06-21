@@ -54,9 +54,9 @@ public class Client
                 Boolean isPrivate;
                 AppointmentType type;
                 HashSet <String> userEmails = new HashSet <String>();
+                SimpleDateFormat dateFormater = new SimpleDateFormat("dd.MM.yy hh:mm");
                 while (true)
                 {
-                    SimpleDateFormat dateFormater = new SimpleDateFormat("dd.MM.yy hh:mm");
                     System.out.println("Enter the starting date with format dd.MM.yy hh:mm");
                     String input = in.readLine();
                     Date inpTime;
@@ -76,7 +76,6 @@ public class Client
                 }
                 while (true)
                 {
-                    SimpleDateFormat dateFormater = new SimpleDateFormat("dd.MM.yy hh:mm");
                     System.out.println("Enter the ending date with format dd.MM.yy hh:mm");
                     String input = in.readLine();
                     Date inpTime;
@@ -182,7 +181,7 @@ public class Client
             System.out.println("No appointments");
             return;
         }
-        System.out.printf("start\tend\ttitle\tprivate\ttype\tnotes\n");
+        System.out.printf("start\t\tend\t\tprivate\tttype\ttype\tnotes\n");
         for(Appointment a: appointments)
         {
             printAppointment(a);
@@ -191,7 +190,13 @@ public class Client
 
     public static void printAppointment(Appointment a)
     {
+        SimpleDateFormat dateFormater = new SimpleDateFormat("dd.MM.yy hh:mm");
         System.out.printf("%s\t%s\t%s\t%s\t%s\t%s\n",
-            a.start, a.end, a.title, a.isPrivate, a.type, a.notes);
+            dateFormater.format(a.start.getTime()),
+            dateFormater.format(a.end.getTime()),
+            a.isPrivate,
+            a.type,
+            a.title,
+            a.notes);
     }
 }
