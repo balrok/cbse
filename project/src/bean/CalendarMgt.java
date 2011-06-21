@@ -54,6 +54,7 @@ public class CalendarMgt implements ICalendarMgt
                 {
                     // cause we shouldn't send the user full information about a private appointment
                     app = new Appointment();
+                    app.isPrivate = true;
                 }
                 errorAppointments.put(email, app);
             }

@@ -54,49 +54,45 @@ public class Client
                 Boolean isPrivate;
                 AppointmentType type;
                 HashSet <String> userEmails = new HashSet <String>();
+                while (true)
                 {
-                    while (true)
+                    SimpleDateFormat dateFormater = new SimpleDateFormat("dd.MM.yy hh:mm");
+                    System.out.println("Enter the starting date with format dd.MM.yy hh:mm");
+                    String input = in.readLine();
+                    Date inpTime;
+                    try
                     {
-                        SimpleDateFormat dateFormater = new SimpleDateFormat("dd.MM.yy hh:mm");
-                        System.out.println("Enter the starting date with format dd.MM.yy hh:mm");
-                        String input = in.readLine();
-                        Date inpTime;
-                        try
-                        {
-                            inpTime = dateFormater.parse(input);
-                        }
-                        catch (Exception e)
-                        {
-                            System.out.println("wrong format");
-                            continue;
-                        }
-                        Calendar cal=Calendar.getInstance();
-                        cal.setTime(inpTime);
-                        start= (GregorianCalendar) cal;
-                        break;
+                        inpTime = dateFormater.parse(input);
                     }
+                    catch (Exception e)
+                    {
+                        System.out.println("wrong format - try again");
+                        continue;
+                    }
+                    Calendar cal=Calendar.getInstance();
+                    cal.setTime(inpTime);
+                    start= (GregorianCalendar) cal;
+                    break;
                 }
+                while (true)
                 {
-                    while (true)
+                    SimpleDateFormat dateFormater = new SimpleDateFormat("dd.MM.yy hh:mm");
+                    System.out.println("Enter the ending date with format dd.MM.yy hh:mm");
+                    String input = in.readLine();
+                    Date inpTime;
+                    try
                     {
-                        SimpleDateFormat dateFormater = new SimpleDateFormat("dd.MM.yy hh:mm");
-                        System.out.println("Enter the ending date with format dd.MM.yy hh:mm");
-                        String input = in.readLine();
-                        Date inpTime;
-                        try
-                        {
-                            inpTime = dateFormater.parse(input);
-                        }
-                        catch (Exception e)
-                        {
-                            System.out.println("wrong format");
-                            continue;
-                        }
-                        Calendar cal=Calendar.getInstance();
-                        cal.setTime(inpTime);
-                        end = (GregorianCalendar) cal;
-                        break;
+                        inpTime = dateFormater.parse(input);
                     }
+                    catch (Exception e)
+                    {
+                        System.out.println("wrong format - try again");
+                        continue;
+                    }
+                    Calendar cal=Calendar.getInstance();
+                    cal.setTime(inpTime);
+                    end = (GregorianCalendar) cal;
+                    break;
                 }
                 {
                     System.out.println("Enter the title:");
@@ -108,36 +104,46 @@ public class Client
                     String input = in.readLine();
                     notes = input;
                 }
+                while (true)
                 {
                     System.out.println("Should this appointment be private? (Y/N):");
-                    String input = in.readLine();
-                    isPrivate = (input.toLowerCase().equals("y"));
+                    String input = in.readLine().toLowerCase();
+                    if (input.equals("y"))
+                        isPrivate = true;
+                    else if (input.equals("n"))
+                        isPrivate = false;
+                    else
+                        continue;
+                    break;
                 }
+                while (true)
                 {
                     System.out.println("What type is this Appointment? (free, blocked, pot.blocked, away)");
-                    String input = in.readLine();
-                    if (input.toLowerCase().equals("free"))
+                    String input = in.readLine().toLowerCase();
+                    if (input.equals("free"))
                         type = AppointmentType.FREE;
-                    else if (input.toLowerCase().equals("blocked"))
+                    else if (input.equals("blocked"))
                         type = AppointmentType.BLOCKED;
-                    else if (input.toLowerCase().equals("pot.blocked"))
+                    else if (input.equals("pot.blocked"))
                         type = AppointmentType.POTENTIALLYBLOCKED;
-                    else if (input.toLowerCase().equals("away"))
+                    else if (input.equals("away"))
                         type = AppointmentType.AWAY;
-                    else
+                    else if (input.equals("free"))
                         type = AppointmentType.FREE;
+                    else
+                        continue;
+                    break;
                 }
+                while (true)
                 {
-                    while (true)
-                    {
-                        System.out.println("Enter other users emails which should also get this appointment or an empty line to continue:");
-                        String input = in.readLine();
-                        if (input.equals(""))
-                            break;
-                        userEmails.add(input);
-                    }
+                    System.out.println("Enter other users emails which should also get this appointment or an empty line to continue:");
+                    String input = in.readLine();
+                    if (input.equals(""))
+                        break;
+                    userEmails.add(input);
                 }
 
+                // also add own
                 userEmails.add(email);
                 Map<String, Appointment> errorAppointments = addApp.addAppointment(
                     start,
@@ -148,7 +154,19 @@ public class Client
                     type,
                     userEmails);
                 if (errorAppointments != null)
+                {
                     System.out.println("Couldn't add appointment");
+                    if (!errorAppointments.isEmpty())
+                    {
+                        System.out.println("List of email-addresses with Appointment title which are conflicting:");
+                        for(Map.Entry<String, Appointment> e: errorAppointments.entrySet())
+                        {
+                            System.out.println(e.getKey()+" - "+(e.getValue().isPrivate?"*private Appointment*":e.getValue().title));
+                        }
+                    }
+                    else
+                        System.out.println("Something is gone terribly wrong, you can't do anything :(");
+                }
             }
             else if (nextStep.equals("2"))
             {
@@ -159,8 +177,12 @@ public class Client
 
     public static void viewAppointments(Collection<Appointment> appointments)
     {
-        if (appointments == null)
+        if (appointments == null || appointments.isEmpty())
+        {
+            System.out.println("No appointments");
             return;
+        }
+        System.out.printf("start\tend\ttitle\tprivate\ttype\tnotes\n");
         for(Appointment a: appointments)
         {
             printAppointment(a);
@@ -169,7 +191,7 @@ public class Client
 
     public static void printAppointment(Appointment a)
     {
-        System.out.printf("%d: %s", a.id, a.title);
-        System.out.println("");
+        System.out.printf("%s\t%s\t%s\t%s\t%s\t%s\n",
+            a.start, a.end, a.title, a.isPrivate, a.type, a.notes);
     }
 }
