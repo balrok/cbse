@@ -49,11 +49,15 @@ public class Appointment implements java.io.Serializable, Comparable<Appointment
      * second one - when the start of the other is after start of that one and before the end of this one
      * this :  s-----e
      * other:     s----e
+     * third one - when the start is equal to other start
+     * this :  s-----e
+     * other:  s--..
     */
     protected Boolean overlapsInTime(Appointment a)
     {
         if (a.start.before(start) && a.end.after(start)
-            || a.start.after(start) && a.start.before(end))
+            || a.start.after(start) && a.start.before(end)
+            || a.start.equals(start))
         {
             return true;
         }

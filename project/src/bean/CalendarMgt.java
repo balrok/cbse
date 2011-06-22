@@ -56,7 +56,7 @@ public class CalendarMgt implements ICalendarMgt
                     app = new Appointment();
                     app.isPrivate = true;
                 }
-                errorAppointments.put(email, app);
+                errorAppointments.put(email, app); // it would make more sense to add the conflicting app here
             }
         }
         if (!errorAppointments.isEmpty())

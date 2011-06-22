@@ -22,6 +22,7 @@ public class Client
 {
     public static void main(String[] args) throws Exception
     {
+        //testDoubleAppointment();
         InitialContext ctx = new InitialContext();
         ILoginUser loginUser = (ILoginUser) ctx.lookup("UserMgt/remote");
         IAddAppointment addApp = (IAddAppointment) ctx.lookup("CalendarMgt/remote");
@@ -33,11 +34,7 @@ public class Client
         System.out.println("Enter your email: ");
         String email = in.readLine();
 
-        Boolean newUser = loginUser.login(name, email);
-        if (newUser)
-            System.out.println("Created a new account");
-        else
-            System.out.println("Welcome back "+name);
+        System.out.println((loginUser.login(name, email))?"Created a new account":"Welcome back "+name);
 
         String nextStep = "42";
         while (!nextStep.toLowerCase().equals("q"))
@@ -54,10 +51,10 @@ public class Client
                 Boolean isPrivate;
                 AppointmentType type;
                 HashSet <String> userEmails = new HashSet <String>();
-                SimpleDateFormat dateFormater = new SimpleDateFormat("dd.MM.yy hh:mm");
+                SimpleDateFormat dateFormater = new SimpleDateFormat("dd.MM.yy HH:mm");
                 while (true)
                 {
-                    System.out.println("Enter the starting date with format dd.MM.yy hh:mm");
+                    System.out.println("Enter the starting date with format dd.MM.yy HH:mm");
                     String input = in.readLine();
                     Date inpTime;
                     try
@@ -76,7 +73,7 @@ public class Client
                 }
                 while (true)
                 {
-                    System.out.println("Enter the ending date with format dd.MM.yy hh:mm");
+                    System.out.println("Enter the ending date with format dd.MM.yy HH:mm");
                     String input = in.readLine();
                     Date inpTime;
                     try
@@ -91,6 +88,11 @@ public class Client
                     Calendar cal=Calendar.getInstance();
                     cal.setTime(inpTime);
                     end = (GregorianCalendar) cal;
+                    if (end.before(start))
+                    {
+                        System.out.println("End should be after start");
+                        continue;
+                    }
                     break;
                 }
                 {
@@ -151,16 +153,17 @@ public class Client
                     notes,
                     isPrivate,
                     type,
-                    userEmails);
+                    userEmails
+                );
                 if (errorAppointments != null)
                 {
                     System.out.println("Couldn't add appointment");
                     if (!errorAppointments.isEmpty())
                     {
-                        System.out.println("List of email-addresses with Appointment title which are conflicting:");
+                        System.out.println("List of email-addresses which are conflicting:");
                         for(Map.Entry<String, Appointment> e: errorAppointments.entrySet())
                         {
-                            System.out.println(e.getKey()+" - "+(e.getValue().isPrivate?"*private Appointment*":e.getValue().title));
+                            System.out.println(e.getKey()); //+" - "+(e.getValue().isPrivate?"*private Appointment*":e.getValue().title));
                         }
                     }
                     else
@@ -181,7 +184,7 @@ public class Client
             System.out.println("No appointments");
             return;
         }
-        System.out.printf("start\t\tend\t\tprivate\tttype\ttype\tnotes\n");
+        System.out.printf("start\t\tend\t\tprivate\ttype\ttitle\tnotes\n");
         for(Appointment a: appointments)
         {
             printAppointment(a);
@@ -190,7 +193,7 @@ public class Client
 
     public static void printAppointment(Appointment a)
     {
-        SimpleDateFormat dateFormater = new SimpleDateFormat("dd.MM.yy hh:mm");
+        SimpleDateFormat dateFormater = new SimpleDateFormat("dd.MM.yy HH:mm");
         System.out.printf("%s\t%s\t%s\t%s\t%s\t%s\n",
             dateFormater.format(a.start.getTime()),
             dateFormater.format(a.end.getTime()),
@@ -198,5 +201,136 @@ public class Client
             a.type,
             a.title,
             a.notes);
+    }
+
+    // to use this just call it in the main function - the expected output is, that the appointment couldn't be added for the first one -
+    // but cold be added for the 2nd one
+    public static void testDoubleAppointment() throws Exception
+    {
+        InitialContext ctx = new InitialContext();
+        ILoginUser loginUser = (ILoginUser) ctx.lookup("UserMgt/remote");
+        IAddAppointment addApp = (IAddAppointment) ctx.lookup("CalendarMgt/remote");
+        IViewAppointment viewApp = (IViewAppointment) ctx.lookup("CalendarMgt/remote");
+
+        {
+            System.out.println("enter 'a:a'");
+            String name = "a";
+            String email = "a";
+            System.out.println((loginUser.login(name, email))?"Created a new account":"Welcome back "+name);
+            System.out.println("viewapp");
+            viewAppointments(viewApp.viewAppointments(email));
+
+            GregorianCalendar start = new GregorianCalendar();
+            GregorianCalendar end = new GregorianCalendar();
+            String title;
+            String notes;
+            Boolean isPrivate;
+            AppointmentType type;
+            HashSet <String> userEmails = new HashSet <String>();
+            SimpleDateFormat dateFormater = new SimpleDateFormat("dd.MM.yy HH:mm");
+            Date inpTime = dateFormater.parse("01.07.11 14:00");
+            Calendar cal=Calendar.getInstance();
+            cal.setTime(dateFormater.parse("01.07.11 14:00"));
+            start = (GregorianCalendar) cal;
+            Calendar cal2=Calendar.getInstance();
+            cal2.setTime(dateFormater.parse("01.07.11 15:00"));
+            end = (GregorianCalendar) cal2;
+            title = "1";
+            notes = "1";
+            isPrivate = false;
+            type = AppointmentType.BLOCKED;
+            userEmails.add(email);
+            for (int i = 0; i<=2; i++)
+            {
+                title = title+i;
+                Map<String, Appointment> errorAppointments = addApp.addAppointment(
+                    start,
+                    end,
+                    title,
+                    notes,
+                    isPrivate,
+                    type,
+                    userEmails
+                );
+                if (errorAppointments != null)
+                {
+                    System.out.println("Couldn't add appointment");
+                    if (!errorAppointments.isEmpty())
+                    {
+                        System.out.println("List of email-addresses which are conflicting:");
+                        for(Map.Entry<String, Appointment> e: errorAppointments.entrySet())
+                        {
+                            System.out.println(e.getKey()); //+" - "+(e.getValue().isPrivate?"*private Appointment*":e.getValue().title));
+                        }
+                    }
+                    else
+                        System.out.println("Something is gone terribly wrong, you can't do anything :(");
+                }
+            }
+
+            System.out.println("viewapp");
+            viewAppointments(viewApp.viewAppointments(email));
+        }
+
+        {
+            System.out.println("enter 'b:b'");
+            String name = "b";
+            String email = "b";
+            System.out.println((loginUser.login(name, email))?"Created a new account":"Welcome back "+name);
+            System.out.println("viewapp");
+            viewAppointments(viewApp.viewAppointments(email));
+
+            GregorianCalendar start = new GregorianCalendar();
+            GregorianCalendar end = new GregorianCalendar();
+            String title;
+            String notes;
+            Boolean isPrivate;
+            AppointmentType type;
+            HashSet <String> userEmails = new HashSet <String>();
+            SimpleDateFormat dateFormater = new SimpleDateFormat("dd.MM.yy HH:mm");
+            Date inpTime = dateFormater.parse("01.07.11 14:00");
+            Calendar cal=Calendar.getInstance();
+            cal.setTime(dateFormater.parse("01.07.11 14:00"));
+            start = (GregorianCalendar) cal;
+            Calendar cal2=Calendar.getInstance();
+            cal2.setTime(dateFormater.parse("01.07.11 15:00"));
+            end = (GregorianCalendar) cal2;
+            title = "1";
+            notes = "1";
+            isPrivate = false;
+            type = AppointmentType.FREE;
+            userEmails.add(email);
+            userEmails.add("a");
+            for (int i = 0; i<=2; i++)
+            {
+                title = title+i;
+                Map<String, Appointment> errorAppointments = addApp.addAppointment(
+                    start,
+                    end,
+                    title,
+                    notes,
+                    isPrivate,
+                    type,
+                    userEmails
+                );
+                if (errorAppointments != null)
+                {
+                    System.out.println("Couldn't add appointment");
+                    if (!errorAppointments.isEmpty())
+                    {
+                        System.out.println("List of email-addresses which are conflicting:");
+                        for(Map.Entry<String, Appointment> e: errorAppointments.entrySet())
+                        {
+                            System.out.println(e.getKey()); //+" - "+(e.getValue().isPrivate?"*private Appointment*":e.getValue().title));
+                        }
+                    }
+                    else
+                        System.out.println("Something is gone terribly wrong, you can't do anything :(");
+                }
+            }
+
+            System.out.println("viewapp");
+            viewAppointments(viewApp.viewAppointments(email));
+        }
     }
 }
