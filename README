@@ -3,11 +3,14 @@ Dokumentation EJB Projekt
 Teilnehmer:
 Ghiath Makhoul
 Lars Krahl
-Carl Sch�nbach
+Carl Schönbach
 Xi Luo
 
 
 Neuste Version unter https://github.com/balrok/cbse.git
-build/run mit ant run in Unter-Ordner "projekt"
+build/run mit "ant run" in Unter-Ordner "project"
 
-Dieses Programm ist nicht interaktiv. :)
+Danach nimmt das Programm interaktiv Eingaben entgegen: logout ist strg+c
+Unter Windows gab es mit "ant run" teilweise Probleme mit der Eingabe, dann:
+    java -classpath .;$JBOSS_HOME\client\jbossall-client.jar;build\classes client.Client
+ausführen.
