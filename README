@@ -14,3 +14,5 @@ Danach nimmt das Programm interaktiv Eingaben entgegen: logout ist strg+c
 Unter Windows gab es mit "ant run" teilweise Probleme mit der Eingabe, dann:
     java -classpath .;$JBOSS_HOME\client\jbossall-client.jar;build\classes client.Client
 ausführen.
+
+Zum automatischen Testen von Terminkonflickten ist unter src/client/Client.java am Anfang der main-funktion eine testmethode auskommentiert.
