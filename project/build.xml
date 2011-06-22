@@ -64,6 +64,8 @@
             </fileset>
         </jar>
         <copy file="build/${build.artifact}" todir="${jboss.home}/server/${jboss.server.config}/deploy"/>
+	<echo>Sleeping 20s for jboss to register bean</echo>
+	<sleep seconds="20" />
     </target>
 
     <target name="entity2xml" depends="prepare">
